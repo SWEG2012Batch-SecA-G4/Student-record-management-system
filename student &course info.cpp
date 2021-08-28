@@ -15,7 +15,8 @@
     int dorm_building_number;
     int dorm_room_number;
 };
- void stud_info(student_info stud[],int studNum,int name_length,int dep_length){
+ void stud_info(student_info stud[],int studNum,int name_length,int dep_length) // name length and dep length are created to hold the string length of name and department respectively
+  {
   stud[studNum];
  for(int i=0;i<studNum;i++)
    {
