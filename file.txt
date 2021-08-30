@@ -1,0 +1,2 @@
+The program is decided to be devided into multiple files so that it can be cleaner and more readable
+The structure of thus files will be a HEADER which contains all declarations, IMPLIMENTATION which contains definations and MAIN which is the main file
