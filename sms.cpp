@@ -6,7 +6,7 @@ void sem_load(Students stud){
     int sum = 0;
     for(int i = 0; i < stud.no_of_course; i++)
         sum+= stud.courses[i].credit + sum;
-    
+
     if(sum >= 17 && sum <= 19)
         cout<<"Semester Load: NORMAL LOAD\n";
     else if(sum < 17)
@@ -34,7 +34,7 @@ void status(double studentgpa[],int size){
 void course_input(Students stud){
     for(int i = 0; i < stud.no_of_course; i++){
         cout << "Instructer full name: ";
-        cin >> stud.courses[i].instructor[0]>>stud.courses[i].instructor[1]; 
+        cin >> stud.courses[i].instructor[0]>>stud.courses[i].instructor[1];
         cout << "Course name: ";
         cin >> stud.courses[i].name;
         cout << "Course CHr: ";
@@ -137,27 +137,22 @@ int search(Students stud[],int size){
     }
     cout<<"Not found\n";
     return 0;
-    //searches student in database by name
+    //searches student in database by id
 }
-void sort(Students stud[],int size){ 
+void sort(Students stud[],int size){
     string names[size],lnames[size],id[size];
     for(int i = 0; i < size; i++){
         names[i] = stud[i].fullName;
          }
          sort(names,names+size);
-              
+
          for(int i = 0; i < size; i++)
             cout<<names[i]<<endl;
-    //sorts students by id
+    //sorts students by id using built in function sort
 }
 void del(Students stud[],int x,int size){
     for(int i = x; i < size; i++){
-        stud[i] = stud[i+1]; 
+        stud[i] = stud[i+1];
     }
     //deletes a single student from database
-}
-void delall(Students stud[],int size){
-    for(int i = 1; i < size; i++){
-        stud[i] = stud[0];
-    }
 }
