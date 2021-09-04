@@ -13,11 +13,11 @@ void sem_load(Students stud){
         cout<<"Semester Load: UNDER LOAD\n";
     else
         cout<<"Semester Load: OVER LOAD\n";
-
+    //adds all credit hours and calculate semester load
 }
-void status(double studentgpa[],int n){
+void status(double studentgpa[],int size){
     int exe = 0,vgood = 0,good = 0,ni = 0,fail = 0;
-    for(int i = 0; i < n; i++){
+    for(int i = 0; i < size; i++){
         if(studentgpa[i] == 4)
             exe++;
         else if(studentgpa[i] < 4 && studentgpa[i] >= 3.5)
@@ -29,6 +29,7 @@ void status(double studentgpa[],int n){
         else if(studentgpa[i] < 2 && studentgpa[i] >= 0)
             fail++;
     }
+    //calculates how well students performed
 }
 void course_input(Students stud){
     for(int i = 0; i < stud.no_of_course; i++){
@@ -41,8 +42,9 @@ void course_input(Students stud){
         cout << "Course code: ";
         cin >> stud.courses[i].code;
         }
+        //admin access to register courses
 }
-void cgpa(Course course[]){
+/*void cgpa(Course course[]){
     int mark;
     for (int i = 0; i < 6; i++)
     {
@@ -100,7 +102,7 @@ void cgpa(Course course[]){
             GPA += Grade_num[i];
         }
     }
-}
+}*/
 Students registration(Students stud){
     cin.ignore();
     cout<<"Enter full name: ";
@@ -120,12 +122,14 @@ Students registration(Students stud){
         cin>>stud.courses[i].name;
     }
     return stud;
+    //admin access to register new students
+    //also used to edit students
 }
-int search(Students stud[],int x){
+int search(Students stud[],int size){
     string id;
     cout<<"Enter id: ";
     cin>>id;
-    for(int i = 0; i < x; i++){
+    for(int i = 0; i < size; i++){
         if(id == stud[i].id){
             cout<<stud[i].fullName<<endl;
             return i;
@@ -133,14 +137,27 @@ int search(Students stud[],int x){
     }
     cout<<"Not found\n";
     return 0;
+    //searches student in database by name
 }
-void sort(Students stud[],int x){ 
-    string names[x],lnames[x],id[x];
-    for(int i = 0; i < x; i++){
+void sort(Students stud[],int size){ 
+    string names[size],lnames[size],id[size];
+    for(int i = 0; i < size; i++){
         names[i] = stud[i].fullName;
          }
-         sort(names,names+x);
+         sort(names,names+size);
               
-         for(int i = 0; i < x; i++)
+         for(int i = 0; i < size; i++)
             cout<<names[i]<<endl;
+    //sorts students by id
+}
+void del(Students stud[],int x,int size){
+    for(int i = x; i < size; i++){
+        stud[i] = stud[i+1]; 
+    }
+    //deletes a single student from database
+}
+void delall(Students stud[],int size){
+    for(int i = 1; i < size; i++){
+        stud[i] = stud[0];
+    }
 }
