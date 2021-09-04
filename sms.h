@@ -5,12 +5,16 @@ struct Dorm{
     int block,room;
 };
 struct Users{
-    string username,password;
+    string username,password,type;
 };
 struct Course{
-    string name,instructor[2],code,pre_request,grade;
+    string name,instructor[2],code,pre_request,grade,year;
     int credit;
     double mark;
+};
+struct Department{
+    string name;
+    Course courses[60];
 };
 class Students{
     public:
@@ -28,5 +32,6 @@ void cgpa(Course []);
 Students registration(Students);
 int search(Students[],int);
 void sort(Students [],int);
-
+void del(Students [],int,int);
+void delall(Students[],int);
 #endif
