@@ -10,7 +10,7 @@ struct Users{
 struct Course{
     string name,instructor[2],code,pre_req,grade,year;
     int credit;
-    double mark;
+    double mark[5];
 };
 struct Department{
     string name;
@@ -23,6 +23,7 @@ class Students{
         int no_of_course;
         Dorm dorm;
         Course courses[10];
+        Department dep;
 };
 
 void sem_load(int [],int);
