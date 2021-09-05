@@ -115,12 +115,8 @@ Students registration(Students stud){
     cin>>stud.dorm.room;
     cout<<"Enter major: ";
     cin>>stud.major;
-    cout<<"Enter number of courses: ";
-    cin>>stud.no_of_course;
-    for(int i=0;i<stud.no_of_course;i++){
-        cout<<"Enter course "<<i+1<<" :";
-        cin>>stud.courses[i].name;
-    }
+    cout<<"Enter department: ";
+    cin>>stud.dep.name;
     return stud;
     //admin access to register new students
     //also used to edit students
@@ -148,7 +144,7 @@ void sort(Students stud[],int size){
 
          for(int i = 0; i < size; i++)
             cout<<names[i]<<endl;
-    //sorts students by id using built in function sort
+    //sorts students by id using built in
 }
 void del(Students stud[],int x,int size){
     for(int i = x; i < size; i++){
