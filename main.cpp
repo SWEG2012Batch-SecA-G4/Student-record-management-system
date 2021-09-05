@@ -1,4 +1,5 @@
 #include<iostream>
+#include<string.h>
 #include"sms.h"
 using namespace std;
 
@@ -8,7 +9,14 @@ int userCount = 0,count = 1,courseCount = 0;
 Department sweg,civ,elec,arc;
 
 void stud_signup(Students stud){
-    account[userCount].username = stud.fullName;
+    char name[stud.fullName.length()];
+    for(int i = 0; i < stud.fullName.length();i++ ){
+        if(stud.fullName[i] == 32)
+            break;
+        else
+            name[i] = stud.fullName[i];
+    }
+    account[userCount].username = name;
     account[userCount].password = "student2013";
     //account created automatically when a new student registeres
     //password is default
@@ -102,7 +110,7 @@ int admin(int index){
                             }
                             else
                                 cout<<"Empty record\n";
-                            _getwch();
+                                _getwch();
                             break;
                         case 3:
                             count = 1;//count is reset to one so that all students are unaccessable
@@ -341,7 +349,7 @@ int main(){
     cout<<"Welcome!\n";
    //all users are accessable to the login page, but as per the type of account the functionalities differ
           //but only admin can sign up
-    cout<<" 1. Admin page\n 2. Teacher page\n 3. Student page\n 4. Exit\n -- ";
+    cout<<" 1. Admin page\n 2. Teacher page\n 3. Student page\n 4. Back\n -- ";
     int user,log;
     cin>>user;
     if(user != 1 && user != 2 && user != 3)
@@ -379,9 +387,10 @@ int main(){
                     student(flag);
                 }
             }
-            else if(flag == -1)
+            else if(flag == -1){
                 cout<<"No account found\n";
                 _getwch();
+            }
                 goto first;
         }
 }
