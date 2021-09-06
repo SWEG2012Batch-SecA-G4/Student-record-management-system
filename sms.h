@@ -13,8 +13,9 @@ struct Course{
     double mark[5];
 };
 struct Department{
-    string name;
+    string name,code;
     Course courses[60];
+    int count;
 };
 class Students{
     public:
