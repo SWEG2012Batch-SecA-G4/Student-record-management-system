@@ -37,13 +37,12 @@ Users signup(Users acc){
     return acc;
     //signs up admin
 }
-
 int login(Users acc[],int size){
     string username,password;
     cout<<"login page\n";
-    cout<<"Enter username: ";
+    cout<<" Enter username: ";
     cin>>username;
-    cout<<"Enter password: ";
+    cout<<" Enter password: ";
     cin>>password;
     for(int i=0;i<size;i++){
         if(username == acc[i].username && password == acc[i].password)
@@ -58,18 +57,20 @@ int admin(int index){
     int choice;
     x:
     system("cls"); // admin can access and modify students and department details so thus will be among his choices
-    cout<<" 1. Student database\n 2. Department database\n 3. Back\n -- ";
+    cout<<" 1. Student database\n 2. Department database\n 3. Back\n 4.Exit\n -- ";
     Students new_reg;
     cin>>choice;
     system("cls");
     switch(choice){
         //if admin chhose student database the functionalitis below will be avialable
         case 1:
+            a:
             cout<<"Please selection your option"<<endl;
             cout<<" 1. Add new students"<<endl;
             cout<<" 2. Update students records "<<endl;
             cout<<" 3. Search student records"<<endl;
-            cout<<" 4. exit"<<endl;
+            cout<<" 4. back"<<endl;
+            cout<<" 5. Main menu\n --";
             int x;
             cin>>x;
             system("cls");
@@ -88,7 +89,8 @@ int admin(int index){
                     cout<<" 2. Delete students record "<<endl;
                     cout<<" 3. Delete all records"<<endl;
                     cout<<" 4. main menu"<<endl;
-                    cout<<" 5. EXIT"<<endl;
+                    cout<<" 5. Back"<<endl;
+                    cout<<" 6. Exit"<<endl<<" --";
                     cin>>x;
                     system("cls");
                     switch(x){
@@ -119,6 +121,9 @@ int admin(int index){
                         case 4:
                             goto x;
                             break;
+                        case 5:
+                            goto a;
+                            break;
                         default:
                             return 0;
                     }
@@ -127,7 +132,8 @@ int admin(int index){
                     cout<<" 1. Sort by name"<<endl;
                     cout<<" 2. Search by id"<<endl;
                     cout<<" 3. main menu"<<endl;
-                    cout<<" 4. EXIT"<<endl;
+                    cout<<" 4. Back"<<endl;
+                    cout<<" 5. EXIT"<<endl<<" --";
                     cin>>x;
                     system("cls");
                     switch(x){
@@ -144,19 +150,27 @@ int admin(int index){
                         case 3:
                             goto x;
                             break;
+                        case 4:
+                            goto a;
                         default:
                             return 0;
                     }
+                    break;
+                case 4:
+                    goto x;
                     break;
                 default:
                     return 0;
             }
             break;
             case 2:
+                b:
                 cout<<" 1. Department of software engineering\n";
                 cout<<" 2. Department of architectural engineering\n";
                 cout<<" 3. Department of electrical engineering\n";
                 cout<<" 4. Department of civil engineering\n";
+                cout<<" 5. Back\n";
+                cout<<" 6. Main menu\n";
                 cout<<" --";
                 cin>>choice;
                 system("cls");
@@ -164,7 +178,9 @@ int admin(int index){
                     case 1:
                         cout<<" Welcome to Department of Software Engineering\n";
                         cout<<" 1. Add course\n";
-                        cout<<" 2. Exit\n";
+                        cout<<" 2. Main menu\n";
+                        cout<<" 3. Back\n";
+                        cout<<" 4. Main menu\n --";
                         cin>>choice;
                         system("cls");
                         switch(choice){
@@ -184,15 +200,22 @@ int admin(int index){
                                 cout<<"Course code: sweg";
                                 courseCount++;
                                 break;
-                            default:
+                            case 2:
                                 goto x;
+                                break;
+                            case 3:
+                                goto b;
+                                break;
+                            default:
+                                return 0;
                                 break;
                         }
                         break;
                     case 2://add course to arc department
-                        cout<<" Welcome to Department of Architecture\n";
                         cout<<" 1. Add course\n";
-                        cout<<" 2. Exit\n";
+                        cout<<" 2. Main menu\n";
+                        cout<<" 3. Back\n";
+                        cout<<" 4. Main menu\n --";
                         cin>>choice;
                         system("cls");
                         switch(choice){
@@ -211,15 +234,23 @@ int admin(int index){
                                 cin>>arc.courses[courseCount].pre_req;
                                 cout<<"Course code: arc";
                                 break;
-                            default:
+                           case 2:
                                 goto x;
+                                break;
+                            case 3:
+                                goto b;
+                                break;
+                            default:
+                                return 0;
                                 break;
                         }
                         break;
                     case 3://add course to electrical
                         cout<<" Welcome to Department of Electrical Engineering\n";
                         cout<<" 1. Add course\n";
-                        cout<<" 2. Exit\n";
+                        cout<<" 2. Main menu\n";
+                        cout<<" 3. Back\n";
+                        cout<<" 4. Main menu\n --";
                         cin>>choice;
                         system("cls");
                         switch(choice){
@@ -238,15 +269,23 @@ int admin(int index){
                                 cin>>elec.courses[courseCount].pre_req;
                                 cout<<"Course code: elec";
                                 break;
-                            default:
+                            case 2:
                                 goto x;
+                                break;
+                            case 3:
+                                goto b;
+                                break;
+                            default:
+                                return 0;
                                 break;
                         }
                         break;
                     case 4://add course to civil
                         cout<<" Welcome to Department of Civil Engineering\n";
                         cout<<" 1. Add course\n";
-                        cout<<" 2. Exit\n";
+                        cout<<" 2. Main menu\n";
+                        cout<<" 3. Back\n";
+                        cout<<" 4. Main menu\n --";
                         cin>>choice;
                         system("cls");
                         switch(choice){
@@ -265,13 +304,25 @@ int admin(int index){
                                 cin>>civ.courses[courseCount].pre_req;
                                 cout<<"Course code: civ";
                                 break;
-                            default:
+                            case 2:
                                 goto x;
+                                break;
+                            case 3:
+                                goto b;
+                                break;
+                            default:
+                                return 0;
                                 break;
                         }
                         break;
+                    case 5:
+                        goto x;
+                    default:
+                        return 0;
+
                 }
                 break;
+            case 3:
             default:
                 return 0;
         }
@@ -279,6 +330,7 @@ int admin(int index){
     return 0;
 }
 void teacher(int index){
+    a:
     system("cls");
     cout<<" 1. My students\n";
     cout<<" 2. Exit";
@@ -287,37 +339,49 @@ void teacher(int index){
     switch(choice){
         case 1:
             cout<<" 1. Grading\n";
-            cout<<" 2. Exit\n";
+            cout<<" 2.Back\n";
+            cout<<" 2. Main menu\n";
             cin>>choice;
             _getwch();
             switch(choice){
             case 1:
-                int x = search(stud,count);
+                int x = search(stud,count),i;
                 double sum = 0;
-                    for(int j = 0; j < 10; j++){
-                        if(stud[x].courses[j].instructor[0] == account[index].username){
-                            for(int k = 0; k <= 5; k++){
-                                system("cls");
-                                cout<<"Name\tID\t5%\t5%\t10\t30%\t50%\ttotal\tgrade\n";
-                                cout<<stud[x].fullName<<"\t"<<stud[x].id<<"\t";
-                                for(int a = 0; a <= k; a++)
-                                    if(a < 5)
-                                        cout<<stud[x].courses[j].mark[a]<<"\t";
-                                if(k < 5){
-                                    cout<<"Mark "<<k+1<<" :";
-                                    cin>>stud[x].courses[j].mark[k];
-                                }
-                                sum+=stud[x].courses[j].mark[k];
-                                cout<<sum<<"\t";
-                            }
-                            _getwch();
-                            break;
-                        }
+                bool flag = false;
+                for(i = 0; i < 10; i++)
+                    if(stud[x].courses[i].instructor[0] == account[index].username){
+                        flag = true;
+                        break;
                     }
+                if(flag){
+                    for(int j = 0; j < 5; j++){
+                        system("cls");
+                        cout<<"Name\tID\t5%\t5%\t10%\t30%\t50%\t100%\tGrade\n";
+                        cout<<stud[x].fullName<<"\t"<<stud[x].id<<"\t";
+                        for(int k = 0; k <= j; k++)
+                            cout<<stud[x].courses[i].mark[k]<<"\t";
+                        cout<<" Mark "<<i+1<<" :";
+                        cin>>stud[x].courses[i].mark[j];
+                        sum+=stud[x].courses[i].mark[j];
+                    }
+                        system("cls");
+                        cout<<"Name\tID\t5%\t5%\t10%\t30%\t50%\t100%\tGrade\n";
+                        cout<<stud[x].fullName<<"\t"<<stud[x].id<<"\t";
+                        for(int k = 0; k < 5; k++)
+                            cout<<stud[x].courses[i].mark[k]<<"\t";
+                       cout<<sum;
+                    _getwch();
+                    
+                }
+                else
+                    cout<<"Student not found\n";
                 break;
             }
             break;
         case 2:
+            goto a;
+            break;
+        default:
             break;
     }
 }
@@ -326,6 +390,8 @@ void student(int index){
     cout<<" 1. Add course\n";
     cout<<" 2. View grade\n";
     cout<<" 3. view other details\n";
+    cout<<" 4. Back\n";
+    cout<<" 5. Main menu\n";
     int choose;
     cin>>choose;//choose functionality
     switch(choose){
@@ -342,6 +408,7 @@ void student(int index){
                     stud[index].courses[x] = sweg.courses[i];//student chooses courses
                     x++;
             }
+            cout<<"courses added!";
         }
         else if(stud[index].dep.name == "arc"){
             for(int i = 0; i < courseCount;i++){
@@ -354,6 +421,7 @@ void student(int index){
                     stud[index].courses[x] = arc.courses[i];
                     x++;
             }
+            cout<<"courses added!";
         }
         else if(stud[index].dep.name == "elec"){
             for(int i = 0; i < courseCount;i++){
@@ -366,6 +434,7 @@ void student(int index){
                     stud[index].courses[x] = elec.courses[i];
                     x++;
             }
+            cout<<"courses added!";
         }
         else if(stud[index].dep.name == "civ"){
                 for(int i = 0; i < courseCount;i++){
@@ -378,6 +447,7 @@ void student(int index){
                     stud[index].courses[x] = civ.courses[i];
                     x++;
             }
+            cout<<"courses added!";
         }
         break;
     }
@@ -408,6 +478,7 @@ int main(){
         }
         else{
             cout<<"account can only be created by admin! \n";
+            _getwch();
             goto first;
         }
        }
