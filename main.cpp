@@ -280,6 +280,46 @@ int admin(int index){
 }
 void teacher(int index){
     system("cls");
+    cout<<" 1. My students\n";
+    cout<<" 2. Exit";
+    int choice;
+    cin>>choice;
+    switch(choice){
+        case 1:
+            cout<<" 1. Grading\n";
+            cout<<" 2. Exit\n";
+            cin>>choice;
+            _getwch();
+            switch(choice){
+            case 1:
+                int x = search(stud,count);
+                double sum = 0;
+                    for(int j = 0; j < 10; j++){
+                        if(stud[x].courses[j].instructor[0] == account[index].username){
+                            for(int k = 0; k <= 5; k++){
+                                system("cls");
+                                cout<<"Name\tID\t5%\t5%\t10\t30%\t50%\ttotal\tgrade\n";
+                                cout<<stud[x].fullName<<"\t"<<stud[x].id<<"\t";
+                                for(int a = 0; a <= k; a++)
+                                    if(a < 5)
+                                        cout<<stud[x].courses[j].mark[a]<<"\t";
+                                if(k < 5){
+                                    cout<<"Mark "<<k+1<<" :";
+                                    cin>>stud[x].courses[j].mark[k];
+                                }
+                                sum+=stud[x].courses[j].mark[k];
+                                cout<<sum<<"\t";
+                            }
+                            _getwch();
+                            break;
+                        }
+                    }
+                break;
+            }
+            break;
+        case 2:
+            break;
+    }
 }
 void student(int index){
     system("cls");
@@ -287,19 +327,19 @@ void student(int index){
     cout<<" 2. View grade\n";
     cout<<" 3. view other details\n";
     int choose;
-    cin>>choose;
+    cin>>choose;//choose functionality
     switch(choose){
     case 1:
-        cout<<"Choose course\n";
+        cout<<"Choose course\n";//check which department the student joined
         if(stud[index].dep.name == "sweg"){
-            for(int i = 0; i < courseCount;i++){
+            for(int i = 0; i < courseCount;i++){//print all available courses
                cout<<" "<<i+1<<". "<<sweg.courses[i].name<<endl;
             }
             cin>>choose;
             int x = 0;
             for(int i = 0; i < courseCount;i++){
                if(choose == i+1)
-                    stud[index].courses[x] = sweg.courses[i];
+                    stud[index].courses[x] = sweg.courses[i];//student chooses courses
                     x++;
             }
         }
