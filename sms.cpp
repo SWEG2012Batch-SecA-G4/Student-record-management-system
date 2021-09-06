@@ -46,7 +46,7 @@ void course_input(Students stud){
 }
 /*void cgpa(Course course[]){
     int mark;
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 5; i++)
     {
         if (mark >= 90 && mark < 100)
             course[i].grade = "A+";
