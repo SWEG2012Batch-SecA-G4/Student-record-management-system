@@ -5,8 +5,9 @@ using namespace std;
 
 Students stud[100];
 Users account[100];
-int userCount = 0,count = 1,courseCount = 0;
 Department sweg,civ,elec,arc;
+int userCount = 0,count = 1,courseCount = 0;
+
 
 void stud_signup(Students stud){
     char name[stud.fullName.length()];
@@ -186,19 +187,20 @@ int admin(int index){
                         switch(choice){
                             case 1://add course to software department
                                 cout<<"Course name: ";
-                                cin>>sweg.courses[courseCount].name;
+                                cin>>sweg.courses[sweg.count].name;
                                 cout<<"Instructors name: ";
-                                cin>>sweg.courses[courseCount].instructor[0]>>sweg.courses[courseCount].instructor[1];
-                                teacher_signup(sweg.courses[courseCount].instructor[0]);
+                                cin>>sweg.courses[sweg.count].instructor[0]>>sweg.courses[sweg.count].instructor[1];
+                                teacher_signup(sweg.courses[sweg.count].instructor[0]);
                                 userCount++;
                                 cout<<"Course year: ";
-                                cin>>sweg.courses[courseCount].year;
+                                cin>>sweg.courses[sweg.count].year;
                                 cout<<"Course credit: ";
-                                cin>>sweg.courses[courseCount].credit;
+                                cin>>sweg.courses[sweg.count].credit;
+                                cout<<"Course code: sweg\n";
+                                sweg.code = "sweg";
                                 cout<<" Prerequesit (if not available type no): ";
-                                cin>>sweg.courses[courseCount].pre_req;
-                                cout<<"Course code: sweg";
-                                courseCount++;
+                                cin>>sweg.courses[sweg.count].pre_req;
+                                sweg.count++;
                                 break;
                             case 2:
                                 goto x;
@@ -221,18 +223,20 @@ int admin(int index){
                         switch(choice){
                             case 1:
                                 cout<<"Course name: ";
-                                cin>>arc.courses[courseCount].name;
+                                cin>>arc.courses[arc.count].name;
                                 cout<<"Instructors name: ";
-                                cin>>arc.courses[courseCount].instructor[0]>>sweg.courses[courseCount].instructor[1];
-                                teacher_signup(arc.courses[courseCount].instructor[0]);
+                                cin>>arc.courses[arc.count].instructor[0]>>sweg.courses[arc.count].instructor[1];
+                                teacher_signup(arc.courses[arc.count].instructor[0]);
                                 userCount++;
                                 cout<<"Course year: ";
-                                cin>>arc.courses[courseCount].year;
+                                cin>>arc.courses[arc.count].year;
                                 cout<<"Course credit: ";
-                                cin>>arc.courses[courseCount].credit;
+                                cin>>arc.courses[arc.count].credit;
+                                cout<<"Course code: arc\n";
+                                sweg.code = "arc";
                                 cout<<" Prerequesit (if not available type no): ";
-                                cin>>arc.courses[courseCount].pre_req;
-                                cout<<"Course code: arc";
+                                cin>>arc.courses[arc.count].pre_req;
+                                arc.count++;
                                 break;
                            case 2:
                                 goto x;
@@ -256,18 +260,20 @@ int admin(int index){
                         switch(choice){
                             case 1:
                                 cout<<"Course name: ";
-                                cin>>elec.courses[courseCount].name;
+                                cin>>elec.courses[elec.count].name;
                                 cout<<"Instructors name: ";
-                                cin>>elec.courses[courseCount].instructor[0]>>sweg.courses[courseCount].instructor[1];
-                                teacher_signup(elec.courses[courseCount].instructor[0]);
+                                cin>>elec.courses[elec.count].instructor[0]>>sweg.courses[elec.count].instructor[1];
+                                teacher_signup(elec.courses[elec.count].instructor[0]);
                                 userCount++;
                                 cout<<"Course year: ";
-                                cin>>elec.courses[courseCount].year;
+                                cin>>elec.courses[elec.count].year;
                                 cout<<"Course credit: ";
-                                cin>>elec.courses[courseCount].credit;
+                                cin>>elec.courses[elec.count].credit;
+                                cout<<"Course code: elec\n";
+                                sweg.code = "elec";
                                 cout<<" Prerequesit (if not available type no): ";
-                                cin>>elec.courses[courseCount].pre_req;
-                                cout<<"Course code: elec";
+                                cin>>elec.courses[elec.count].pre_req;
+                                elec.count++;
                                 break;
                             case 2:
                                 goto x;
@@ -291,18 +297,20 @@ int admin(int index){
                         switch(choice){
                             case 1:
                                 cout<<"Course name: ";
-                                cin>>civ.courses[courseCount].name;
+                                cin>>civ.courses[civ.count].name;
                                 cout<<"Instructors name: ";
-                                cin>>civ.courses[courseCount].instructor[0]>>sweg.courses[courseCount].instructor[1];
-                                teacher_signup(civ.courses[courseCount].instructor[0]);
+                                cin>>civ.courses[civ.count].instructor[0]>>sweg.courses[civ.count].instructor[1];
+                                teacher_signup(civ.courses[civ.count].instructor[0]);
                                 userCount++;
                                 cout<<"Course year: ";
-                                cin>>civ.courses[courseCount].year;
+                                cin>>civ.courses[civ.count].year;
                                 cout<<"Course credit: ";
-                                cin>>civ.courses[courseCount].credit;
+                                cin>>civ.courses[civ.count].credit;
+                                cout<<"Course code: civ\n";
+                                sweg.code = "civ";
                                 cout<<" Prerequesite (if not available type no): ";
-                                cin>>civ.courses[courseCount].pre_req;
-                                cout<<"Course code: civ";
+                                cin>>civ.courses[civ.count].pre_req;
+                                civ.count++;
                                 break;
                             case 2:
                                 goto x;
@@ -333,16 +341,16 @@ void teacher(int index){
     a:
     system("cls");
     cout<<" 1. My students\n";
-    cout<<" 2. Exit";
+    cout<<" 2. Back\n";
+    cout<<" 3. Main menu\n --";
     int choice;
     cin>>choice;
     switch(choice){
         case 1:
             cout<<" 1. Grading\n";
-            cout<<" 2.Back\n";
-            cout<<" 2. Main menu\n";
+            cout<<" 2. Back\n";
+            cout<<" 3. Main menu\n --";
             cin>>choice;
-            _getwch();
             switch(choice){
             case 1:
                 int x = search(stud,count),i;
@@ -354,13 +362,14 @@ void teacher(int index){
                         break;
                     }
                 if(flag){
+                    again:
                     for(int j = 0; j < 5; j++){
                         system("cls");
                         cout<<"Name\tID\t5%\t5%\t10%\t30%\t50%\t100%\tGrade\n";
                         cout<<stud[x].fullName<<"\t"<<stud[x].id<<"\t";
                         for(int k = 0; k <= j; k++)
                             cout<<stud[x].courses[i].mark[k]<<"\t";
-                        cout<<" Mark "<<i+1<<" :";
+                        cout<<" Mark "<<j+1<<" :";
                         cin>>stud[x].courses[i].mark[j];
                         sum+=stud[x].courses[i].mark[j];
                     }
@@ -369,12 +378,40 @@ void teacher(int index){
                         cout<<stud[x].fullName<<"\t"<<stud[x].id<<"\t";
                         for(int k = 0; k < 5; k++)
                             cout<<stud[x].courses[i].mark[k]<<"\t";
-                       cout<<sum;
+                        cout<<sum<<"\t";
+                        if(sum >= 90 && sum <=100)
+                            stud[x].courses[i].grade = "A+";
+                        else if (sum < 90 && sum >= 85)
+                            stud[x].courses[i].grade = "A";
+                        else if (sum < 85 && sum >= 80)
+                            stud[x].courses[i].grade = "A-";
+                        else if (sum < 80 && sum >= 75)
+                            stud[x].courses[i].grade = "B+";
+                        else if (sum < 75 && sum >= 70)
+                            stud[x].courses[i].grade = "B";
+                        else if (sum < 70 && sum >= 65)
+                            stud[x].courses[i].grade = "B-";
+                        else if (sum < 65 && sum >= 60)
+                            stud[x].courses[i].grade = "C+";
+                        else if (sum < 60 && sum >= 50)
+                            stud[x].courses[i].grade = "C";
+                        else if (sum < 50 && sum >= 45)
+                            stud[x].courses[i].grade = "C-";
+                        else if (sum < 45 && sum >= 40)
+                            stud[x].courses[i].grade = "D";
+                        else if (sum < 40 && sum >= 0)
+                            stud[x].courses[i].grade = "F";
+                        else{
+                            cout << "Mark is out of range!!!";
+                            goto again;
+                        }
+                        cout<<stud[x].courses[i].grade;
                     _getwch();
-                    
+
                 }
                 else
                     cout<<"Student not found\n";
+                    _getwch();
                 break;
             }
             break;
@@ -398,57 +435,96 @@ void student(int index){
     case 1:
         cout<<"Choose course\n";//check which department the student joined
         if(stud[index].dep.name == "sweg"){
-            for(int i = 0; i < courseCount;i++){//print all available courses
+            for(int i = 0; i < sweg.count;i++){//print all available courses
                cout<<" "<<i+1<<". "<<sweg.courses[i].name<<endl;
             }
             cin>>choose;
             int x = 0;
-            for(int i = 0; i < courseCount;i++){
+            for(int i = 0; i < sweg.count;i++){
                if(choose == i+1)
                     stud[index].courses[x] = sweg.courses[i];//student chooses courses
                     x++;
             }
+            stud[index].dep.code = "sweg";
             cout<<"courses added!";
+            _getwch();
         }
         else if(stud[index].dep.name == "arc"){
-            for(int i = 0; i < courseCount;i++){
+            for(int i = 0; i < arc.count;i++){
                cout<<" "<<i+1<<". "<<arc.courses[i].name<<endl;
             }
             cin>>choose;
             int x = 0;
-            for(int i = 0; i < courseCount;i++){
+            for(int i = 0; i < arc.count;i++){
                if(choose == i+1)
                     stud[index].courses[x] = arc.courses[i];
                     x++;
             }
+            stud[index].dep.code = "arc";
             cout<<"courses added!";
+            _getwch();
         }
         else if(stud[index].dep.name == "elec"){
-            for(int i = 0; i < courseCount;i++){
+            for(int i = 0; i < elec.count;i++){
                cout<<" "<<i+1<<". "<<elec.courses[i].name<<endl;
             }
             cin>>choose;
             int x = 0;
-            for(int i = 0; i < courseCount;i++){
+            for(int i = 0; i < elec.count;i++){
                if(choose == i+1)
                     stud[index].courses[x] = elec.courses[i];
                     x++;
             }
+            stud[index].dep.code = "elec";
             cout<<"courses added!";
+            _getwch();
         }
         else if(stud[index].dep.name == "civ"){
-                for(int i = 0; i < courseCount;i++){
+                for(int i = 0; i < civ.count;i++){
                cout<<" "<<i+1<<". "<<civ.courses[i].name<<endl;
             }
             cin>>choose;
             int x = 0;
-            for(int i = 0; i < courseCount;i++){
+            for(int i = 0; i < civ.count;i++){
                if(choose == i+1)
                     stud[index].courses[x] = civ.courses[i];
                     x++;
             }
+            stud[index].dep.code = "civ";
             cout<<"courses added!";
+            _getwch();
         }
+        break;
+        case 2:
+            system("cls");
+            cout<<"Name\tID\t5%\t5%\t10%\t30%\t50%\t100%\tGrade\n";
+            cout<<stud[index].fullName<<"\t"<<stud[index].id<<"\t";
+                if(stud[index].dep.code == "sweg")
+                    for(int i = 0; i < sweg.count; i++){
+                        for(int k = 0; k < 5; k++)
+                            cout<<stud[index].courses[i].mark[k]<<"\t";
+                        cout<<endl;
+                    }
+                else if(stud[index].dep.code == "arc")
+                   for(int i = 0; i < arc.count; i++){
+                        for(int k = 0; k < 5; k++)
+                            cout<<stud[index].courses[i].mark[k]<<"\t";
+                        cout<<endl;
+                    }
+                else if(stud[index].dep.code == " elec")
+                    for(int i = 0; i < elec.count; i++){
+                        for(int k = 0; k < 5; k++)
+                            cout<<stud[index].courses[i].mark[k]<<"\t";
+                        cout<<endl;
+                    }
+                else if(stud[index].dep.code == "civ")
+                    for(int i = 0; i < civ.count; i++){
+                        for(int k = 0; k < 5; k++)
+                            cout<<stud[index].courses[i].mark[k]<<"\t";
+                        cout<<endl;
+                    }
+                    
+        _getwch();
         break;
     }
 }
@@ -459,10 +535,10 @@ int main(){
     cout<<"Welcome!\n";
    //all users are accessable to the login page, but as per the type of account the functionalities differ
           //but only admin can sign up
-    cout<<" 1. Admin page\n 2. Teacher page\n 3. Student page\n 4. Back\n -- ";
+    cout<<" 1. Admin page\n 2. Other users page\n 3. Back\n -- ";
     int user,log;
     cin>>user;
-    if(user != 1 && user != 2 && user != 3)
+    if(user != 1 && user != 2)
         return 0;
     system("cls");
     cout<<" 1. signup\n 2. login\n --";
