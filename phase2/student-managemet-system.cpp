@@ -8,7 +8,7 @@
 #include <sstream>
 
 using namespace std;
-
+//dormitary
 struct Dorm{
     string block,room;
 };
@@ -810,6 +810,154 @@ void _student(Students stud){
             main();
         case 4:{
             break;
+        }
+    }
+}
+int show_stud(string c_name,int studs[]){
+    cout<<c_name<<endl;
+    ifstream sread("student.txt");
+    string line,present,print,grade;
+    vector<string> lines;
+    while(getline(sread,line))
+        lines.push_back(line);
+    int j,t_choose,counter = 0, i,choose;
+    bool flag;
+    system("cls");
+    cout<<"no ID\tName\n";
+    for(i = 0; i < lines.size(); i++){
+        j = 0;
+        flag = false;
+        istringstream iss(lines[i]);
+        while(iss >> present){
+            if(present == c_name)
+                flag = true;
+        }
+        if(flag){
+        counter++;
+        studs[counter] = i;
+        istringstream isss(lines[i]);
+        cout<<counter<<". ";
+        while(isss >> print && j < 3){
+            if(j == 0)
+                cout<<print<<"\t";
+            else
+                cout<<print<<" ";
+            j++;
+        }
+        cout<<endl;
+        }
+    }
+    do{
+        cout<<"Choose student: ";
+        cin>>choose;
+        choose;
+    }while(choose > counter);
+    return studs[choose];
+}
+void add_grade(string & g_stud,string c_name){
+    system("cls");
+    string line,present,print,gpa,marks[] = {"5% :","5% :","10% :","30% :","50% :","100%"};
+    int i = 0;
+    float sum = 0,mark;
+    cout<<"ID\tName\n";
+    istringstream isss(g_stud);
+    int j = 0;
+    while(isss >> print && j < 3){
+            if(j == 0)
+                cout<<print<<"\t";
+            else
+                cout<<print<<" ";
+            j++;
+        }
+        cout<<endl;
+    for(int i = 0; i < 6; i++){
+        if(i == 5){
+            cout<<marks[i]<<" :"<<sum<<endl;
+            break;
+        }
+        cout<<"Enter mark "<<i+1<<"-"<<marks[i];
+        cin>>mark;
+        sum+=mark;
+    }
+    gpa = grade(sum);
+    cout<<" "<<gpa<<endl;
+    istringstream iss(g_stud);
+    while(iss >> line){
+        if(line == c_name){
+            line+=" "+gpa;
+        }
+        present += line+" ";
+    }
+    g_stud = present;
+
+
+}
+string grade(float sum){
+    string g;
+    if(sum >= 90 && sum <=100)
+        g = "A+";
+    else if (sum < 90 && sum >= 85)
+        g = "A";
+    else if (sum < 85 && sum >= 80)
+        g = "A-";
+    else if (sum < 80 && sum >= 75)
+        g = "B+";
+    else if (sum < 75 && sum >= 70)
+        g = "B";
+    else if (sum < 70 && sum >= 65)
+        g = "B-";
+    else if (sum < 65 && sum >= 60)
+        g = "C+";
+    else if (sum < 60 && sum >= 50)
+        g = "C";
+    else if (sum < 50 && sum >= 45)
+        g = "C-";
+    else if (sum < 45 && sum >= 40)
+        g = "D";
+    else if (sum < 40 && sum >= 0)
+        g = "F";
+    return g;
+}
+float cgpa(string grade){
+    if(grade == "A+" || grade == "A")
+        return 4;
+    else if (grade == "A-")
+        return 3.75;
+    else if(grade == "B+")
+        return 3.5;
+    else if(grade == "B")
+        return 3;
+    else if(grade == "B-")
+        return 2.75;
+    else if(grade == "C+")
+        return 2.5;
+    else if(grade == "C")
+        return 2;
+    else if(grade == "C-")
+        return 1.75;
+    else if(grade == "D")
+        return 1;
+    else
+        return 0;
+}
+void stat(){
+    ifstream sread("student.txt");
+    vector<string> lines;
+    string line;
+    int sweg_c,arc_c,civ_c,elec_c;
+    while(getline(sread, line))
+        lines.push_back(line);
+    for(int i = 0; i < lines.size();i++){
+        istringstream iss(lines[i]);
+        while(iss>>line>>line>>line>>line>>line){
+            if(line == "sweg")
+                sweg_c++;
+            else if(line == "arc")
+                arc_c++;
+            else if(line == "civ_c")
+                civ_c++;
+            else
+                elec_c++;
         }
     }
 }
