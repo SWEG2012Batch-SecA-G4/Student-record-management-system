@@ -12,19 +12,23 @@ using namespace std;
 struct Dorm{
     string block,room;
 };
+//users for login
 struct Users{
     string username,password,type;
 }admin,teacher,student;
+//courses structure
 struct Course{
     string name,instructor[2],code,pre_req,grade,year;
     int credit;
     double mark[6];
 }course;
+//department structure
 struct Department{
     string name,code;
     Course courses[60];
     int count;
 };
+//student class
 class Students{
     public:
         string fullName,id,line;
@@ -34,9 +38,6 @@ class Students{
         Department dep;
 }stud;
 
-void color(int color){
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),color);
-}
 int menu(){
     int menu;
     system("cls");
@@ -171,7 +172,7 @@ void stat();
 int main(){
         int account;
         switch(menu()){
-        //admin
+        //admin page
         case 1:{
             cout<<"Admin page\n";
             cout<<" 1. signup\n 2. login\n->";
@@ -190,12 +191,12 @@ int main(){
                 main();
             break;
         }
-        //teacher
+        //teacher page
         case 2:{
             if(teacher_login(course))
                 _teacher(course);
             break;
-        }//student
+        }//student page
         case 3:{
             if(student_login(stud))
                 _student(stud);
@@ -205,6 +206,7 @@ int main(){
         default:{main();}
     }
 }
+//used to signup admin
 void signup(){
     system("cls");
     string username,password;
@@ -224,6 +226,7 @@ void signup(){
     aout<<admin.username<<" "<<admin.password<<endl;
     aout.close();
 }
+//used to login admin
 bool login(string user){
     system("cls");
     ifstream file(user);
@@ -240,44 +243,53 @@ bool login(string user){
     }
     return false;
 }
+//the admin function where all admin functions are done
 void adminstration(){
     int reg_count = 0;
     system("cls");
     cout<<"admin page!";
+    //student database
     switch(menu_1()){
         case 1:{
             switch(menu_11()){
+                //add student
                 case 1:{
                     registration();
                     reg_count++;
                     adminstration();
                     break;
                 }
+                //update student
                 case 2:{
                     switch(menu_112()){
+                        //edit student
                         case 1:{
                             edit(search());
                             adminstration();
                             break;
                         }
+                        //delete student
                         case 2:{
                             del(search());
                             adminstration();
                             break;
                         }
+                        //delete all record
                         case 3:{
                             ofstream trunc("student.txt");
                             trunc.close();
                             adminstration();
                             break;
-                        }
+                        }//goto adminstration
                         case 4:
                             adminstration();
+                            //goto main menu
                         case 5:
                             main();
                     }
                     break;
                 }
+                //search student
                 case 3:{
                     stud = search();
                     if(stud.fullName != "no")
@@ -289,17 +301,21 @@ void adminstration(){
                     }
                     break;
                 }
+                //goto admin
                 case 4:{
                     adminstration();
                 }
+                //goto main
                 default: {
                     main();
                 }
             }
             break;
         }
+        //department database
         case 2:{
             switch(menu_12()){
+                //software department
                 case 1:
                     course.code = "sweg";
                     switch(menu_121()){
@@ -321,6 +337,7 @@ void adminstration(){
                             main();
                     }
                     break;
+                //arcitactural department
                 case 2:
                     course.code = "arc";
                     switch(menu_121()){
@@ -342,6 +359,7 @@ void adminstration(){
                             main();
                     }
                     break;
+                    //electrical department
                 case 3:
                     course.code = "elec";
                     switch(menu_121()){
@@ -363,6 +381,7 @@ void adminstration(){
                             main();
                     }
                     break;
+                    //civil engineering department
                 case 4:
                     course.code = "civ";
                     switch(menu_121()){
@@ -385,22 +404,27 @@ void adminstration(){
                             break;
                     }
                     break;
+                    //goto adminstration
                 case 5:
                     adminstration();
                     break;
+                    //goto main
                 default:{
                     main();
                 }
             }
         }
+        //goto main
         case 3:{
             main();
         }
+        //exit
         default:{
             break;
         }
     }
 }
+//function for registration
 void registration(){
     cin.ignore();
     cout<<"Enter full name: ";
@@ -435,6 +459,7 @@ void registration(){
     //admin access to register new students
     //also used to edit students
 }
+//search student from file
 Students search(){
     string search,name[2],line,id,dep,block,room;
     Students student;
@@ -460,6 +485,7 @@ Students search(){
     student.fullName = "no";
     return student;
 }
+//modifies and edits student information from file
 void edit(Students stud){
     string usernames,name[2],dep,block,room,id;
     int line_count = 0;
@@ -518,6 +544,7 @@ void edit(Students stud){
         cout<<line[i]<<endl;
     }
 }
+//delete a record from file
 void del(Students stud){
     string line;
     vector<string> lines;
@@ -549,6 +576,7 @@ void del(Students stud){
     }
     swrite.close();
 }
+//registration for course
 void reg_course(Course courses){
     cout<<"Course name: ";
     cin>>courses.name;
@@ -567,6 +595,7 @@ void reg_course(Course courses){
     cwrite.close();
 
 }
+//edit course information
 void edit_course(Course courses){
     string code,name,iname[2],year,credit,pre;
     int line_count = 0;
@@ -607,6 +636,7 @@ void edit_course(Course courses){
         cout<<line[i]<<endl;
     }
 }
+//search course from file
 Course search_course(Course courses){
     string search,code,name,iname[2],year,credit,pre;
     cout<<" Enter course name: ";
@@ -621,6 +651,7 @@ Course search_course(Course courses){
     courses.name = "no";
     return courses;
 }
+//delete a course
 void del_courses(Course course){
     string line;
     vector<string> lines;
@@ -661,6 +692,7 @@ void del_courses(Course course){
     else
         cout<<"course not available\n";
 }
+//teachers can login with default password
 bool teacher_login(Course &course){
     string username,password,name[7];
     cout<<"Enter username: ";
@@ -679,6 +711,7 @@ bool teacher_login(Course &course){
     }
     return false;
 }
+//student can login with default password
 bool student_login(Students &stud){
     string username,password,name[4];
     cout<<"Enter username: ";
@@ -696,6 +729,7 @@ bool student_login(Students &stud){
     }
     return false;
 }
+//teacher can grade students
 void _teacher(Course course){
     x:
     system("cls");
@@ -729,6 +763,8 @@ void _teacher(Course course){
             break;
     }
 }
+//student can add course and
+//view graded subjects
 void _student(Students stud){
     system("cls");
     beg:
