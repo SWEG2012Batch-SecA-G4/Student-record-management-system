@@ -8,7 +8,7 @@
 #include <sstream>
 
 using namespace std;
-//dormitary
+
 struct Dorm{
     string block,room;
 };
@@ -60,7 +60,6 @@ int menu_1(){
     cin>>menu;
     return menu;
 }
-
 int menu_11(){
     system("cls");
     int menu;
@@ -204,5 +203,201 @@ int main(){
         }//back
         case 4:{return 0;}
         default:{main();}
+    }
+}
+void signup(){
+    system("cls");
+    string username,password;
+    ofstream aout("admin.txt" , ios::app);
+    cout<<"Enter username: ";
+    cin>>admin.username;
+    cout<<"Enter password: ";
+    cin>>admin.password;
+    ifstream ain("admin.txt");
+    while(ain>>username>>password){
+        if(username==admin.username){
+            cout<<"Username already exists! choose a new one\n";
+            system("pause");
+            signup();
+        }
+    }
+    aout<<admin.username<<" "<<admin.password<<endl;
+    aout.close();
+}
+bool login(string user){
+    system("cls");
+    ifstream file(user);
+    string username,password;
+    cout<<"Enter username: ";
+    cin>>username;
+    cout<<"Enter password: ";
+    cin>>password;
+    while(file >> admin.username >> admin.password){
+        if(username == admin.username && password == admin.password){
+            cout<<"Welcome "<<username<<"!!\n";
+            return true;
+        }
+    }
+    return false;
+}
+void adminstration(){
+    int reg_count = 0;
+    system("cls");
+    cout<<"admin page!";
+    switch(menu_1()){
+        case 1:{
+            switch(menu_11()){
+                case 1:{
+                    registration();
+                    reg_count++;
+                    adminstration();
+                    break;
+                }
+                case 2:{
+                    switch(menu_112()){
+                        case 1:{
+                            edit(search());
+                            adminstration();
+                            break;
+                        }
+                        case 2:{
+                            del(search());
+                            adminstration();
+                            break;
+                        }
+                        case 3:{
+                            ofstream trunc("student.txt");
+                            trunc.close();
+                            adminstration();
+                            break;
+                        }
+                        case 4:
+                            adminstration();
+                        case 5:
+                            main();
+                    }
+                    break;
+                }
+                case 3:{
+                    stud = search();
+                    if(stud.fullName != "no")
+                        cout<<stud.fullName<<endl<<stud.id<<endl;
+                    else{
+                        cout<<"Not found!"<<endl;
+                        system("pause");
+                        adminstration();
+                    }
+                    break;
+                }
+                case 4:{
+                    adminstration();
+                }
+                default: {
+                    main();
+                }
+            }
+            break;
+        }
+        case 2:{
+            switch(menu_12()){
+                case 1:
+                    course.code = "sweg";
+                    switch(menu_121()){
+                        case 1:
+                            reg_course(course);
+                            adminstration();
+                            break;
+                        case 2:
+                            edit_course(search_course(course));
+                            adminstration();
+                            break;
+                        case 3:
+                            del_courses(search_course(course));
+                            adminstration();
+                            break;
+                        case 4:
+                            adminstration();
+                        case 5:
+                            main();
+                    }
+                    break;
+                case 2:
+                    course.code = "arc";
+                    switch(menu_121()){
+                        case 1:
+                            reg_course(course);
+                            adminstration();
+                            break;
+                         case 2:
+                            edit_course(search_course(course));
+                            adminstration();
+                            break;
+                        case 3:
+                            del_courses(search_course(course));
+                            adminstration();
+                            break;
+                        case 4:
+                            adminstration();
+                        case 5:
+                            main();
+                    }
+                    break;
+                case 3:
+                    course.code = "elec";
+                    switch(menu_121()){
+                        case 1:
+                            reg_course(course);
+                            adminstration();
+                            break;
+                         case 2:
+                            edit_course(search_course(course));
+                            adminstration();
+                            break;
+                        case 3:
+                            del_courses(search_course(course));
+                            adminstration();
+                            break;
+                        case 4:
+                            adminstration();
+                        case 5:
+                            main();
+                    }
+                    break;
+                case 4:
+                    course.code = "civ";
+                    switch(menu_121()){
+                        case 1:
+                            reg_course(course);
+                            adminstration();
+                            break;
+                         case 2:
+                            edit_course(search_course(course));
+                            adminstration();
+                            break;
+                        case 3:
+                            del_courses(search_course(course));
+                            adminstration();
+                            break;
+                        case 4:
+                            adminstration();
+                        case 5:
+                            main();
+                            break;
+                    }
+                    break;
+                case 5:
+                    adminstration();
+                    break;
+                default:{
+                    main();
+                }
+            }
+        }
+        case 3:{
+            main();
+        }
+        default:{
+            break;
+        }
     }
 }
