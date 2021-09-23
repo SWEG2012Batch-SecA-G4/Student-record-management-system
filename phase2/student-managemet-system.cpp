@@ -1,65 +1,4 @@
-#include<iostream>
-#include<windows.h>
-#include<algorithm>
-#include<vector>
-#include<string.h>
-#include<iomanip>
-#include<fstream>
-#include <sstream>
 
-using namespace std;
-
-struct Dorm{
-    string block,room;
-};
-struct Users{
-    string username,password,type;
-}admin,teacher,student;
-struct Course{
-    string name,instructor[2],code,pre_req,grade,year;
-    int credit;
-    double mark[6];
-}course;
-struct Department{
-    string name,code;
-    Course courses[60];
-    int count;
-};
-class Students{
-    public:
-        string fullName,id,line;
-        int no_of_course;
-        Dorm dorm;
-        Course courses[10];
-        Department dep;
-}stud;
-
-void color(int color){
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),color);
-}
-int menu(){
-    int menu;
-    system("cls");
-    cout<<"Student Record Management System\n";
-    cout<<"Welcome!\n";
-    //all users are accessable to the login page, but as per the type of account the functionalities differ
-    //but only admin can sign up
-    cout<<" 1. Admin page\n 2. Teacher page\n 3. Student page\n 4. Back\n-> ";
-    cin>>menu;
-    return menu;
-}
-//admin
-int menu_1(){
-    system("cls");
-    int menu;
-    cout<<"Please select your option"<<endl;
-    cout<<" 1. Student Database"<<endl;
-    cout<<" 2. Department database"<<endl;
-    cout<<" 3. back"<<endl;
-    cout<<" 4. Exit\n->";
-    cin>>menu;
-    return menu;
-}
 int menu_11(){
     system("cls");
     int menu;
@@ -399,5 +338,211 @@ void adminstration(){
         default:{
             break;
         }
+    }
+}
+void registration(){
+    cin.ignore();
+    cout<<"Enter full name: ";
+    getline(cin,stud.fullName,'\n');
+    int x;
+    for( x = 0; x < stud.fullName.length(); x++){
+        if(stud.fullName[x] == ' ')
+            break;
+    }
+    char username[stud.fullName.length()];
+    for(int i = 0; i <= stud.fullName.length();i++ ){
+        if(i < x){
+            username[i] = stud.fullName[i];
+        }
+        else{
+            if(i != stud.fullName.length()-1)
+                username[i] = stud.fullName[i+1];
+            else
+                username[i] = '\0';
+        }
+    }
+    cout<<"Enter id: ";
+    cin>>stud.id;
+    cout<<"Enter dorm block: ";
+    cin>>stud.dorm.block;
+    cout<<"Enter dorm room: ";
+    cin>>stud.dorm.room;
+    cout<<"Enter department(sweg,arc,elec,civ): ";
+    cin>>stud.dep.name;
+    ofstream sout("student.txt" , ios::app);
+    sout<<stud.id<<" "<<stud.fullName<<" "<<username<<" "<<stud.dep.name<<" "<<stud.dorm.block<<" "<<stud.dorm.room<<endl;
+    //admin access to register new students
+    //also used to edit students
+}
+Students search(){
+    string search,name[2],line,id,dep,block,room;
+    Students student;
+    cout<<" Enter name or id:";
+    cin.ignore();
+    getline(cin,search);
+    ifstream sread("student.txt");
+    while(sread>>stud.id>>name[0]>>name[1]>>line>>dep){
+        getline(sread,line);
+        if((name[0]+" "+name[1]) == search){
+            stud.fullName = search;
+            stud.dep.name = dep;
+            stud.line = line;
+            return stud;
+        }
+        else if(search == stud.id){
+            stud.fullName = name[0]+" "+name[1];
+            stud.dep.name = dep;
+            stud.line = line;
+            return stud;
+        }
+    }
+    student.fullName = "no";
+    return student;
+}
+void edit(Students stud){
+    string usernames,name[2],dep,block,room,id;
+    int line_count = 0;
+    ifstream stu("student.txt");
+    while(getline(stu,name[0])){
+        line_count++;
+    }
+    string line[line_count];
+    int j = 0;
+    stu.close();
+    ifstream sread("student.txt");
+    while(sread>>id){
+        getline(sread,name[0]);
+        if(id == stud.id){
+            cin.ignore();
+            cout<<"Enter full name: ";
+            getline(cin,stud.fullName,'\n');
+            int x;
+            for( x = 0; x < stud.fullName.length(); x++){
+                if(stud.fullName[x] == ' ')
+                    break;
+            }
+            char username[stud.fullName.length()];
+            for(int i = 0; i <= stud.fullName.length();i++ ){
+                if(i < x){
+                    username[i] = stud.fullName[i];
+                }
+                else{
+                    if(i != stud.fullName.length()-1)
+                        username[i] = stud.fullName[i+1];
+                    else
+                        username[i] = '\0';
+                }
+            }
+            cout<<"Enter id: ";
+            cin>>stud.id;
+            cout<<"Enter dorm block: ";
+            cin>>stud.dorm.block;
+            cout<<"Enter dorm room: ";
+            cin>>stud.dorm.room;
+            cout<<"Enter department(sweg,arc,elec,civ): ";
+            cin>>stud.dep.name;
+            usernames = username;
+            line[j++] = stud.id+" "+stud.fullName+" "+usernames+" "+stud.dep.name+" "+stud.dorm.block+" "+stud.dorm.room;
+            cout<<line[j-1];
+        }
+        else
+            line[j++] = id+" "+name[0];
+}
+    sread.close();
+    ofstream trunc("student.txt");
+    trunc.close();
+    ofstream swrite("student.txt",ios::app);
+    for(int i = 0; i < line_count; i++){
+        swrite<<line[i]<<endl;
+        cout<<line[i]<<endl;
+    }
+}
+void del(Students stud){
+    string line;
+    vector<string> lines;
+    string usernames,name[2],dep,block,room,id;
+    int line_count = 0;
+    ifstream stu("student.txt");
+    while(getline(stu, line)){
+        lines.push_back(line);
+    }
+    stu.close();
+    ifstream sread("student.txt");
+    while(sread>>id){
+        getline(sread, name[0]);
+        if(id == stud.id){
+            break;
+        }
+        line_count++;
+    }
+    sread.close();
+    ofstream trunc("student.txt");
+    trunc.close();
+    ofstream swrite("student.txt",ios::app);
+    for(int i = line_count+1; i < lines.size(); i++) {
+        lines[i-1] = lines[i];
+    }
+    lines.pop_back();
+    for(int i = 0; i < lines.size(); i++){
+        swrite<<lines[i]<<endl;
+    }
+    swrite.close();
+}
+void reg_course(Course courses){
+    cout<<"Course name: ";
+    cin>>courses.name;
+    cout<<"Instructors name: ";
+    cin>>courses.instructor[0]>>courses.instructor[1];
+    cin.ignore();
+    cout<<"Course year: ";
+    cin>>courses.year;
+    cin.ignore();
+    cout<<"Course credit: ";
+    cin>>courses.credit;
+    cout<<"Prerequesite (if not available type no): ";
+    cin>>courses.pre_req;
+    ofstream cwrite("course.txt",ios::app);
+    cwrite <<courses.code<<" "<< courses.name<<" "<<courses.instructor[0]<<" "<<courses.instructor[1]<<" "<<courses.year<<" "<<courses.credit<<" "<<courses.pre_req<<endl;
+    cwrite.close();
+
+}
+void edit_course(Course courses){
+    string code,name,iname[2],year,credit,pre;
+    int line_count = 0;
+    ifstream stu("course.txt");
+    while(stu>>code>>name>>iname[0]>>iname[1]>>year>>credit>>pre){
+        line_count++;
+    }
+    string line[line_count];
+    int j = 0;
+    stu.close();
+    ifstream sread("course.txt");
+    while(sread>>code>>name>>iname[0]>>iname[1]>>year>>credit>>pre){
+        if(name == courses.name){
+            cout<<"Course name: ";
+            cin>>courses.name;
+            cout<<"Instructors name: ";
+            cin>>courses.instructor[0]>>courses.instructor[1];
+            cin.ignore();
+            cout<<"Course year: ";
+            cin>>courses.year;
+            cin.ignore();
+            cout<<"Course credit: ";
+            cin>>credit;
+            cout<<"Prerequesite (if not available type no): ";
+            cin>>courses.pre_req;
+            line[j++] = courses.code+" "+courses.name+" "+courses.instructor[0]+" "+courses.instructor[1]+" "+courses.year+" "+credit+" "+courses.pre_req;
+            cout<<line[j-1];
+        }
+        else
+            line[j++] = code+" "+name+" "+iname[0]+" "+iname[1]+" "+year+" "+credit+" "+pre;
+}
+    sread.close();
+    ofstream trunc("course.txt");
+    trunc.close();
+    ofstream cwrite("course.txt",ios::app);
+    for(int i = 0; i < line_count; i++){
+        cwrite<<line[i]<<endl;
+        cout<<line[i]<<endl;
     }
 }
