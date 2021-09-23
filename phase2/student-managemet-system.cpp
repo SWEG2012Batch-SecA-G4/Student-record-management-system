@@ -8,7 +8,7 @@
 #include <sstream>
 
 using namespace std;
-//dormitary
+
 struct Dorm{
     string block,room;
 };
@@ -605,5 +605,211 @@ void edit_course(Course courses){
     for(int i = 0; i < line_count; i++){
         cwrite<<line[i]<<endl;
         cout<<line[i]<<endl;
+    }
+}
+Course search_course(Course courses){
+    string search,code,name,iname[2],year,credit,pre;
+    cout<<" Enter course name: ";
+    cin.ignore();
+    cin>>search;
+    ifstream cread("course.txt");
+    while(cread>>courses.code>>courses.name>>courses.instructor[0]>>courses.instructor[1]>>courses.year>>courses.credit>>courses.pre_req){
+        if(courses.name == search){
+            return courses;
+        }
+    }
+    courses.name = "no";
+    return courses;
+}
+void del_courses(Course course){
+    string line;
+    vector<string> lines;
+    string code,name,iname[2],year,credit,pre;
+    int line_count = 0;
+    ifstream cread("course.txt");
+    while(getline(cread, line)){
+        lines.push_back(line);
+    }
+    cread.close();
+    bool flag = false;
+    ifstream sread("course.txt");
+    while(sread>>code>>name>>iname[0]>>iname[1]>>year>>credit>>pre){
+        if(code == course.code){
+            if(name == course.name){
+                flag = true;
+                break;
+            }
+        }
+        else
+            flag = false;
+        line_count++;
+    }
+    sread.close();
+    if(flag){
+        ofstream trunc("course.txt");
+        trunc.close();
+        ofstream swrite("course.txt",ios::app);
+        for(int i = line_count+1; i < lines.size(); i++) {
+            lines[i-1] = lines[i];
+        }
+        lines.pop_back();
+        for(int i = 0; i < lines.size(); i++){
+            swrite<<lines[i]<<endl;
+        }
+        swrite.close();
+    }
+    else
+        cout<<"course not available\n";
+}
+bool teacher_login(Course &course){
+    string username,password,name[7];
+    cout<<"Enter username: ";
+    cin>>username;
+    cout<<"Enter password: ";
+    cin>>password;
+    ifstream cread("course.txt");
+    while(cread>>name[0]>>name[1]>>name[2]){
+        getline(cread,name[3]);
+        if(name[2] == username && password == "teacher2013"){
+            course.code = name[0];
+            course.name = name[1];
+            course.instructor[0] = name[2];
+            return true;
+        }
+    }
+    return false;
+}
+bool student_login(Students &stud){
+    string username,password,name[4];
+    cout<<"Enter username: ";
+    cin>>username;
+    cout<<"Enter password: ";
+    cin>>password;
+    ifstream sread("student.txt");
+    while(sread>>stud.id>>name[0]>>name[1]>>name[2]>>name[3]){
+        if(name[2] == username && password == "student2013"){
+            stud.fullName = name[0]+" "+name[1];
+            stud.dep.name = name[3];
+            return true;
+        }
+        getline(sread,name[3]);
+    }
+    return false;
+}
+void _teacher(Course course){
+    x:
+    system("cls");
+    ifstream sr("student.txt");
+    string line;
+    vector <string> lines;
+    while(getline(sr,line)){
+        lines.push_back(line);
+    }
+    sr.close();
+    switch(menu_21()){
+        case 1:{
+            int studs[lines.size()];
+            int index = show_stud(course.name,studs);
+            line = lines[index];
+            add_grade(line,course.name);
+            lines[index] = line;
+            ofstream trunc("student.txt");
+            trunc.close();
+            ofstream swrite("student.txt",ios::app);
+            for(int i = 0; i < lines.size();i++){
+                swrite << lines[i]<<endl;
+            }
+            system("pause");
+            goto x;
+            break;
+        }
+        case 2:
+            main();
+        case 3:
+            break;
+    }
+}
+void _student(Students stud){
+    system("cls");
+    beg:
+    switch(menu_31()){
+        case 1:{
+            system("cls");
+            vector<string> lines;
+            string dep,line,li;
+            ifstream cread("course.txt");
+            while(cread>>dep){
+                if(dep == stud.dep.name){
+                    getline(cread,line);
+                    lines.push_back(line);
+                }
+            }
+            cread.close();
+            for(int i = 0; i < lines.size(); i++)
+                cout<<1+i<<". "<<lines[i]<<endl;
+            int add;
+            string course_name;
+            cout<<"Choose course to add: ";
+            cin>>add;
+            add--;
+            for(int i = 1; i < lines[add].size(); i++){
+                if(lines[add][i] == ' ')
+                    break;
+                course_name+=lines[add][i];
+            }
+            ifstream sread("student.txt");
+            vector<string> students;
+            string student;
+            while(getline(sread,student)){
+                students.push_back(student);
+            }
+            sread.close();
+            ifstream srea("student.txt");
+            string s_line,name[2],department,block,room,id;
+            int j = 0;
+            while(srea>>id){
+                getline(srea,s_line);
+                if(id == stud.id)
+                    break;
+                j++;
+            }
+            students[j] =students[j]+" "+course_name;
+            ofstream trunc("student.txt");
+            trunc.close();
+            ofstream swrite("student.txt",ios::app);
+            for(int i = 0; i < students.size();i++){
+                swrite<<students[i]<<endl;
+            }
+            system("pause");
+            main();
+            break;
+        }
+        case 2:{
+            string id,line,p_line;
+            vector<string> grade;
+            ifstream sread("student.txt");
+            while(sread>>id){
+                getline(sread,line);
+                if(id == stud.id)
+                    break;
+            }
+            istringstream iss(line);
+            while(iss>>p_line){
+                grade.push_back(p_line);
+            }
+            cout<<"ID\tName\n";
+            cout<<id<<"\t"<<grade[0]<<" "<<grade[1]<<"  ";
+            for(int i = 6; i < line.size(); i++){
+                cout<<grade[i]<<"  ";
+            }
+            system("pause");
+            main();
+            break;
+        }
+        case 3:
+            main();
+        case 4:{
+            break;
+        }
     }
 }
